@@ -1,0 +1,24 @@
+:root {
+    --first-color: hsl(161,46%,69%);
+
+    --second-color: #f4ddb4;
+
+    --third-color: hsl(40,88%,60%);
+    --third-color-v1: hsl(40,88%,26%);
+    --third-color-v2: hsl(40,88%,50%);
+
+    --fourth-color: #bc0b27;
+
+    --fifth-color: #4a2512;
+    --fifth-color-v1: #4a2512aa;
+}
+
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}

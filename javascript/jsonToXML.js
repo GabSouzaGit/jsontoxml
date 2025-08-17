@@ -24,31 +24,41 @@ export default function jsonToXML(json){
     
     const jsonKeys = Object.keys(json);
     if(jsonKeys.length > 1) return;
-
+    
     const conversor = (content, tagname, tab) => { 
-        if(content == null){
-            xml += tag(tagname, "null", tab)
-            return;
-        }  
-
-        if(typeof content != "object"){ 
-            xml += tag(tagname, content, tab);
+        if(content == null) {
+            xml += tag(tagname, "null", tab); 
             
+            return; 
+        }
+
+        if(Array.isArray(content)){
+            xml += opentag(tagname, tab);
+            for(let i = 0; i < content.length; i++){
+                conversor(content[i], "ArrayItem", tab + TAB_INCR)
+            }
+            xml += closetag(tagname, tab)
+            return
+        }
+        
+        if(typeof content == "object"){
+            const contentKeys = Object.keys(content);
+            
+            if(contentKeys.length <= 0){            
+                xml += emptytag(tagname, tab);
+                return;
+            }
+    
+            xml += opentag(tagname, tab);
+            for(let i = 0; i < contentKeys.length; i++){
+                conversor(content[contentKeys[i]], contentKeys[i], tab + TAB_INCR)
+            }
+            xml += closetag(tagname, tab);
             return;
         }
         
-        const contentKeys = Object.keys(content);
-
-        if(contentKeys.length <= 0){            
-            xml += emptytag(tagname, tab);
-            return;
-        }
-
-        xml += opentag(tagname, tab);
-        for(let i = 0; i < contentKeys.length; i++){
-            conversor(content[contentKeys[i]], contentKeys[i], tab + TAB_INCR)
-        }
-        xml += closetag(tagname, tab);
+        xml += tag(tagname, content, tab);
+        return;
     }
 
     conversor(
